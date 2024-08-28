@@ -1,0 +1,29 @@
+backend:
+    functions:
+        - entry: app.mjs
+          handler: handler
+          name: express
+          path: ./
+          type: aws
+    language:
+        name: js
+        packageManager: npm
+    path: server
+    scripts:
+        deploy: npm install
+        local: npm install
+frontend:
+    environment:
+        VITE_API_URL: ${{ backend.functions.express.url }}
+    path: client
+    publish: dist
+    scripts:
+        build: npm run build
+        deploy:
+            - npm install
+        start:
+            - npm install --silent
+            - npm run dev --silent
+name: test-expres-full-stack-app
+region: eu-central-1
+yamlVersion: 2
